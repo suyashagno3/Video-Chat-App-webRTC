@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   Button,
   TextField,
@@ -7,10 +7,10 @@ import {
   Container,
   Paper,
 } from "@material-ui/core";
-
-import { makeStyles } from "@material-ui/core/styles";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { Assignment, Phone, PhoneDisabled } from "@material-ui/icons";
+import { makeStyles } from "@material-ui/core/styles";
+
 import { SocketContext } from "../SocketContext";
 
 const useStyles = makeStyles((theme) => ({
@@ -44,8 +44,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Options = ({ children }) => {
-  const { me, callAccepted, name, setName, leaveCall, callUser, callEnded } =
+const Sidebar = ({ children }) => {
+  const { me, callAccepted, name, setName, callEnded, leaveCall, callUser } =
     useContext(SocketContext);
   const [idToCall, setIdToCall] = useState("");
   const classes = useStyles();
@@ -53,7 +53,7 @@ const Options = ({ children }) => {
   return (
     <Container className={classes.container}>
       <Paper elevation={10} className={classes.paper}>
-        <form className={classes.root} noValidate autocomplete="off">
+        <form className={classes.root} noValidate autoComplete="off">
           <Grid container className={classes.gridContainer}>
             <Grid item xs={12} md={6} className={classes.padding}>
               <Typography gutterBottom variant="h6">
@@ -62,8 +62,8 @@ const Options = ({ children }) => {
               <TextField
                 label="Name"
                 value={name}
-                fullWidth
                 onChange={(e) => setName(e.target.value)}
+                fullWidth
               />
               <CopyToClipboard text={me} className={classes.margin}>
                 <Button
@@ -78,20 +78,20 @@ const Options = ({ children }) => {
             </Grid>
             <Grid item xs={12} md={6} className={classes.padding}>
               <Typography gutterBottom variant="h6">
-                Make a Call
+                Make a call
               </Typography>
               <TextField
-                label="ID to Call"
+                label="ID to call"
                 value={idToCall}
-                fullWidth
                 onChange={(e) => setIdToCall(e.target.value)}
+                fullWidth
               />
               {callAccepted && !callEnded ? (
                 <Button
                   variant="contained"
                   color="secondary"
+                  startIcon={<PhoneDisabled fontSize="large" />}
                   fullWidth
-                  startIcon={<PhoneDisabled fontsize="large" />}
                   onClick={leaveCall}
                   className={classes.margin}
                 >
@@ -101,8 +101,8 @@ const Options = ({ children }) => {
                 <Button
                   variant="contained"
                   color="primary"
+                  startIcon={<Phone fontSize="large" />}
                   fullWidth
-                  startIcon={<Phone fontsize="large" />}
                   onClick={() => callUser(idToCall)}
                   className={classes.margin}
                 >
@@ -118,4 +118,4 @@ const Options = ({ children }) => {
   );
 };
 
-export default Options;
+export default Sidebar;
